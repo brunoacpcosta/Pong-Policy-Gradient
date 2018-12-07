@@ -2,6 +2,7 @@ import gym
 import numpy as np
 import pickle
 import os
+import time
 print(os.getcwd())
 # import mxnet
 # import minpy
@@ -107,7 +108,7 @@ def main():
         #"1": np.random.randn(neurons, dimensions) / np.sqrt(dimensions),
         #"2": np.random.randn(neurons) / np.sqrt(neurons)
     #}
-    with open('pesos30.txt', 'rb') as pesos:
+    with open('pesos50.txt', 'rb') as pesos:
        weights = pickle.load(pesos)
        print("Carregou")
     print (weights)
@@ -122,6 +123,7 @@ def main():
 
     while True:
         enviroment.render()
+        time.sleep(0.01)
         processed_observations, prev_observations = preprocess_observations(observation, prev_observations, dimensions)
         hidden_layer_values, up_probability = apply_neural_nets(processed_observations, weights)
         episode_observations.append(processed_observations)
@@ -153,7 +155,7 @@ def main():
                 if episode == 100:
                     episode = 10
                 update_weights(weights, expectation_g_squared, g_dict, decay, learning)
-                pesos = "pesos" + str(episode) + ".txt"
+                pesos = "pesos" + str(episode+60) + ".txt"
                 with open(pesos, 'wb') as handle:
                     pickle.dump(weights, handle)
                     print("Salvou")
